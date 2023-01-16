@@ -16,23 +16,21 @@ public class TaskMenager {
     }
 
     public Task getTaskById(int taskId) {
-        for (int id : tasksMap.keySet()) {
-            if (id == taskId) return tasksMap.get(id);
-        }
-        return null;
+       return tasksMap.get(taskId);
     }
 
     public Task update(Task task, int id) {
         tasksMap.put(id, task);
-        return tasksMap.get(id);//?
+        return tasksMap.get(id);
     }
 
     //сабтаск может только быть в рамках эпик
     public List<Task> getAllTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
-        for (Task task : tasksMap.values()) {
-            tasks.add(task);
-        }
+        //for (Task task : tasksMap.values()) {// тут не поняла? можно даже не перебирая мапу,
+        //сразу все значения перебросить в лист?
+            tasks.addAll(tasksMap.values());
+       // }
         return tasks;
     }
 
@@ -67,4 +65,3 @@ public class TaskMenager {
 
 
 }
-
