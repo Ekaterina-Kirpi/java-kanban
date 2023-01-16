@@ -1,4 +1,6 @@
-public class SubTask extends Task{
+package tasks;
+
+public class SubTask extends Task {
     private EpicTask epicTask;
     private int parentId;
 

@@ -1,3 +1,9 @@
+package menager;
+
+import tasks.EpicTask;
+import tasks.SubTask;
+import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +22,7 @@ public class TaskMenager {
     }
 
     public Task getTaskById(int taskId) {
-       return tasksMap.get(taskId);
+        return tasksMap.get(taskId);
     }
 
     public Task update(Task task, int id) {
@@ -29,8 +35,8 @@ public class TaskMenager {
         ArrayList<Task> tasks = new ArrayList<>();
         //for (Task task : tasksMap.values()) {// тут не поняла? можно даже не перебирая мапу,
         //сразу все значения перебросить в лист?
-            tasks.addAll(tasksMap.values());
-       // }
+        tasks.addAll(tasksMap.values());
+        // }
         return tasks;
     }
 
