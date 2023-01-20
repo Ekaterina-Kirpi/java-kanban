@@ -1,7 +1,6 @@
 package tasks;
 
-import menager.TaskMenager;
-
+import menager.InMemoryTaskManager;
 public class Task {
     private String name;
     private String description;
@@ -13,9 +12,8 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.id = TaskMenager.generateId();// будет генерироваться для всех
+        this.id = InMemoryTaskManager.generateId();// будет генерироваться для всех
     }
-
     public Task(String name) {
         this.name = name;
     }

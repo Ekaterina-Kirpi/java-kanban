@@ -1,39 +1,30 @@
-import menager.TaskMenager;
+import menager.*;
 import tasks.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskMenager taskMenager = new TaskMenager();
-
-        Task task = new Task("Побегать", "Часовая пробежка", Status.NEW);
-        taskMenager.saveNewTask(task);
-        System.out.println(task.getId());
-        System.out.println(taskMenager.getTaskById(1));
-        taskMenager.update(task, 1);
-        System.out.println(task);
-        Task task1 = new Task("Купить фрукты", "Зайти в магазин", Status.NEW);
-        taskMenager.saveNewTask(task1);
-
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager inMemoryHistoryManager = taskManager.getHistory();
+        Task task = new Task("Побегать", "Часовая пробежка", Status.DONE);
+        taskManager.saveNewTask(task);
         EpicTask epicTask = new EpicTask("Подготовится к ДР", "Идея, подарок, упаковка, встреча", Status.NEW);
-        taskMenager.saveNewTask(epicTask);
+        taskManager.saveNewTask(epicTask);
 
         SubTask subTask = new SubTask("Выбрать подарок", "Поехать купить", Status.DONE);
         epicTask.saveNewSubTask(subTask);
-        taskMenager.saveNewTask(subTask);
+        taskManager.saveNewTask(subTask);
 
         SubTask subTask1 = new SubTask("Сделать гравировку на подарке", "Найти кто делает лазерную гравировку", Status.NEW);
-        taskMenager.saveNewTask(subTask1);
+        taskManager.saveNewTask(subTask1);
         epicTask.saveNewSubTask(subTask1);
-        System.out.println(subTask.getId());
-        System.out.println(epicTask);
-        System.out.println(epicTask.getId());
-        System.out.println(epicTask.calcStatus());
-        EpicTask epicTask1 = new EpicTask("Выспаться", "Лечь спать до 22ч", Status.NEW);
-        taskMenager.saveNewTask(epicTask1);
-        System.out.println(taskMenager.getAllTasks());
-
-
+        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(taskManager.getTaskById(epicTask.getId()));
+        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(taskManager.getTaskById(subTask.getId()));
+        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(taskManager.getTaskById(task.getId()));
+        System.out.println(inMemoryHistoryManager.getHistory());
 
     }
 }

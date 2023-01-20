@@ -4,45 +4,70 @@ import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
-public class TaskMenager {
+
+public class InMemoryTaskManager implements TaskManager {
+
+    HistoryManager historyManager;
     private HashMap<Integer, Task> tasksMap;
     private static int id = 1;
 
-    public TaskMenager() {
-
+    public InMemoryTaskManager() {
         this.tasksMap = new HashMap<>();
+        historyManager = Managers.getDefaultHistory();
     }
 
+
+    @Override
     public void saveNewTask(Task task) {
         tasksMap.put(task.getId(), task);
     }
 
+    @Override
     public Task getTaskById(int taskId) {
-        return tasksMap.get(taskId);
+        Task task = tasksMap.get(taskId);
+        historyManager.addTask(task);
+        return task;
     }
 
+    @Override
     public Task update(Task task, int id) {
+
         tasksMap.put(id, task);
+
         return tasksMap.get(id);
+
     }
 
-    //сабтаск может только быть в рамках эпик
+    @Override
     public List<Task> getAllTasks() {
-        ArrayList<Task> tasks = new ArrayList<>();
-        //for (Task task : tasksMap.values()) {// тут не поняла? можно даже не перебирая мапу,
-        //сразу все значения перебросить в лист?
-        tasks.addAll(tasksMap.values());
-        // }
-        return tasks;
+        return new ArrayList<>(tasksMap.values());
+    }
+
+    @Override
+    public void removeById(int id) {
+        tasksMap.remove(id);
+    }
+
+    @Override
+    public void removeAllTask() {
+        tasksMap = new HashMap<>();
+    }
+
+
+    public static int generateId() {
+        return id++;
     }
 
     public List<EpicTask> getAllEpicTasks() {
+
         ArrayList<EpicTask> epicTasks = new ArrayList<>();
+
         for (Task task : tasksMap.values()) {
+
             if (task.getClass() == EpicTask.class) {
                 //проверка эпик ли? если да, то добавить
                 epicTasks.add((EpicTask) task);
@@ -52,22 +77,18 @@ public class TaskMenager {
     }
 
     public List<SubTask> getSubTasksFromEpic(int id) {
+
         if (tasksMap.get(id).getClass() != EpicTask.class) return null;
+
         return ((EpicTask) tasksMap.get(id)).getSubTasks();
+
     }
 
-
-    public void removeById(int id) {
-        tasksMap.remove(id);
+    public HistoryManager getHistory() {
+        return historyManager;
     }
 
-    public void removeAllTask() {
-        tasksMap = new HashMap<>();
+    public void setHistoryManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
     }
-
-    public static int generateId() {
-        return id++;
-    }
-
-
 }
