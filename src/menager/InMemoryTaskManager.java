@@ -34,9 +34,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task update(Task task, int id) {
+    public Task update(Task task) {
 
-        tasksMap.put(id, task);
+        tasksMap.put(task.getId(), task);
 
         return tasksMap.get(id);
 

@@ -18,13 +18,14 @@ public class Main {
         SubTask subTask1 = new SubTask("Сделать гравировку на подарке", "Найти кто делает лазерную гравировку", Status.NEW);
         taskManager.saveNewTask(subTask1);
         epicTask.saveNewSubTask(subTask1);
-        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(inMemoryHistoryManager.getHistory() + "\n");
         System.out.println(taskManager.getTaskById(epicTask.getId()));
-        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(inMemoryHistoryManager.getHistory() + "\n");
         System.out.println(taskManager.getTaskById(subTask.getId()));
-        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(inMemoryHistoryManager.getHistory() + "\n");
         System.out.println(taskManager.getTaskById(task.getId()));
-        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(inMemoryHistoryManager.getHistory() + "\n");
+        System.out.println(subTask);
 
     }
 }

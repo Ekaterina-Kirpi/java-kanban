@@ -10,10 +10,6 @@ public class SubTask extends Task {
         this.parentId = parentId;
     }
 
-    public int getParentId() {
-        return epicTask.getId();
-    }
-
     public SubTask(String name, String description, Status status, int parentId) {
         super(name, description, status);
         this.parentId = parentId;
@@ -26,10 +22,24 @@ public class SubTask extends Task {
     public SubTask(String name, String description) {
         super(name, description, Status.NEW);
     }
+    public int getParentId() {
+        return epicTask.getId();
+    }
+
 
     @Override
     public Status calcStatus() {
         return status;
     }
-}
 
+    @Override
+    public String toString() {
+        return "SubTask{" +
+                "id=" + getId() + "," +
+                "name=" + getName() + "," +
+                "description=" + getDescription() + "," +
+                "status=" + getStatus() +
+                ", parentId=" + parentId +
+                '}';
+    }
+}

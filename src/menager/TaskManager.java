@@ -9,7 +9,7 @@ public interface TaskManager {
 
     Task getTaskById(int id);
 
-    Task update(Task task, int id);
+    Task update(Task task);
 
     List<Task> getAllTasks();
 
