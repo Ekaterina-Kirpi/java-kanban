@@ -47,9 +47,9 @@ public class Task {
         this.description = description;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    //public void setId(int id) {
+     //   this.id = id;
+    //}
 
     public void setStatus(Status status) {
         this.status = status;

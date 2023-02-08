@@ -49,7 +49,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeById(int id) {
-        tasksMap.remove(id);
+        if (tasksMap.containsKey(id)) {
+            tasksMap.remove(id);
+            historyManager.remove(id);
+        }
     }
 
     @Override

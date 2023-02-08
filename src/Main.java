@@ -29,5 +29,7 @@ public class Main {
             System.out.println(inMemoryHistoryManager.getHistory() + "\n");
             System.out.println(taskManager.getTaskById(task.getId()) + "\n");
             System.out.println(inMemoryHistoryManager.getHistory() + "\n");
+
+
         }
     }
