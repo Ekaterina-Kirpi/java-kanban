@@ -1,12 +1,20 @@
 package tasks;
 
-import menager.InMemoryTaskManager;
+import manager.InMemoryTaskManager;
+import manager.Type;
+
 public class Task {
     private String name;
     private String description;
     private int id;
     protected Status status;
 
+    public Task(int id ,String name, String description, Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;// будет генерироваться для всех
+    }
 
     public Task(String name, String description, Status status) {
         this.name = name;
@@ -14,11 +22,12 @@ public class Task {
         this.status = status;
         this.id = InMemoryTaskManager.generateId();// будет генерироваться для всех
     }
+
     public Task(String name) {
         this.name = name;
     }
 
-    public Status calcStatus(){
+    public Status calcStatus() {
         return status;
     }
 
@@ -48,7 +57,7 @@ public class Task {
     }
 
     //public void setId(int id) {
-     //   this.id = id;
+    //   this.id = id;
     //}
 
     public void setStatus(Status status) {
@@ -63,4 +72,5 @@ public class Task {
                 ", id=" + id +
                 ", status=" + status +
                 '}';
-    } }
+    }
+}

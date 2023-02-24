@@ -1,4 +1,4 @@
-package menager;
+package manager;
 
 import tasks.EpicTask;
 import tasks.SubTask;
@@ -12,12 +12,13 @@ import java.util.ArrayList;
 public class InMemoryTaskManager implements TaskManager {
 
     HistoryManager historyManager;
-    private HashMap<Integer, Task> tasksMap;
+    protected HashMap<Integer, Task> tasksMap;
     private static int id = 1;
 
     public InMemoryTaskManager() {
         this.tasksMap = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
+
     }
 
 
@@ -50,6 +51,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeById(int id) {
         if (tasksMap.containsKey(id)) {
+            if(tasksMap.get(id) instanceof EpicTask) {
+                for (Task task: ((EpicTask) tasksMap.get(id)).getSubTasks()) {
+                    tasksMap.remove(task.getId());
+                    historyManager.remove(id);
+                }
+            }
             tasksMap.remove(id);
             historyManager.remove(id);
         }

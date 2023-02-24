@@ -1,10 +1,11 @@
-package menager;
+package manager;
 import tasks.Task;
 import java.util.*;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final CustomLinkedList historyTasks = new CustomLinkedList();
+
 
     @Override
     public void addTask(Task task) {
