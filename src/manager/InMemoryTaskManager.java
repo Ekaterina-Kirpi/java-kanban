@@ -51,10 +51,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeById(int id) {
         if (tasksMap.containsKey(id)) {
-            if(tasksMap.get(id) instanceof EpicTask) {
-                for (Task task: ((EpicTask) tasksMap.get(id)).getSubTasks()) {
+            if (tasksMap.get(id) instanceof EpicTask) {
+                for (Task task : ((EpicTask) tasksMap.get(id)).getSubTasks()) {
                     tasksMap.remove(task.getId());
-                    historyManager.remove(id);
+                    historyManager.remove(task.getId());
                 }
             }
             tasksMap.remove(id);

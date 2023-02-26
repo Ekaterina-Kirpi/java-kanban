@@ -33,11 +33,15 @@ public class Main {
         System.out.println(taskManager.getHistory().getHistory() + "\n");
         System.out.println(taskManager.getTaskById(task.getId()) + "\n");
         System.out.println(taskManager.getHistory().getHistory() + "\n");
-        System.out.println(taskManager.getHistory().getHistory() + "\n");
+        //System.out.println(taskManager.getHistory().getHistory() + "\n");
         TaskManager fileBackedTasksManager = FileBackedTaskManager.loadFromFile(new File("list.csv"));
-        System.out.println(fileBackedTasksManager.getAllTasks() + "\n");
+        //System.out.println(fileBackedTasksManager.getAllTasks() + "\n");
         System.out.println(fileBackedTasksManager.getHistory().getHistory() + "\n");
+        System.out.println(epicTask);
+        taskManager.removeById(2);
+        System.out.println(fileBackedTasksManager.getTaskById(2));
 
+        System.out.println(taskManager.getHistory().getHistory());//удаляет из истории эпик и его сабтаски.
 
     }
 }

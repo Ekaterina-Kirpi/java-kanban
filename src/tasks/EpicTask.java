@@ -60,6 +60,7 @@ public class EpicTask extends Task {
     public String toString() {
         return "EpicTask{" +
                 "subTasks=" + subTasks +
+                ", id=" + getId() +
                 ", status=" + status +
                 '}';
     }
