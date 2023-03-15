@@ -1,8 +1,17 @@
 package tasks;
 
+import java.time.Instant;
+import java.util.Objects;
+
 public class SubTask extends Task {
     private EpicTask epicTask;
     private int parentId;
+
+    public SubTask(int id, String name, String description, Status status, EpicTask epicTask, int parentId, Instant startTime, long duration) {
+        super(id, name, description, status, startTime, duration);
+        this.epicTask = epicTask;
+        this.parentId = parentId;
+    }
 
     public SubTask(int id, String name, String description, Status status, EpicTask epicTask, int parentId) {
         super(id, name, description, status);
@@ -16,14 +25,18 @@ public class SubTask extends Task {
         this.parentId = parentId;
     }
 
-    public SubTask(int id, String name, String description, Status status, int parentId) {
-        super(id, name, description, status);
+    public SubTask(int id, String name, String description, Status status, int parentId, Instant startTime, long duration) {
+        super(id, name, description, status, startTime, duration);
         this.parentId = parentId;
     }
 
     public SubTask(String name, String description, Status status, int parentId) {
         super(name, description, status);
         this.parentId = parentId;
+    }
+
+    public SubTask(String name, String description, Status status, Instant startTime, long duration) {
+        super(name, description, status, startTime, duration);
     }
 
     public SubTask(String name, String description, Status status) {
@@ -33,27 +46,6 @@ public class SubTask extends Task {
     public SubTask(String name, String description) {
         super(name, description, Status.NEW);
     }
-
-
-    @Override
-    public Status calcStatus() {
-        return status;
-    }
-
-    @Override
-    public String toString() {
-        return "SubTask{" +
-               super.toString() +
-               /*"name='" + getName() + '\'' +
-               ", description='" + getDescription() + '\'' +
-               ", id=" + getId() +
-              */ ", status=" + status +
-                "epicTask=" + epicTask +
-                ", parentId=" + parentId +
-                ", status=" + status +
-                '}';
-    }
-
 
     public EpicTask getEpicTask() {
         return epicTask;
@@ -69,5 +61,22 @@ public class SubTask extends Task {
 
     public void setParentId(int parentId) {
         this.parentId = parentId;
+    }
+
+
+    @Override
+    public Status calcStatus() {
+        return status;
+    }
+
+    @Override
+    public String toString() {
+        return "SubTask{" +
+                super.toString() +
+                ", status=" + status +
+                "epicTask=" + epicTask +
+                ", parentId=" + parentId +
+                ", status=" + status +
+                '}';
     }
 }

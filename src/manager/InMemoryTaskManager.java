@@ -1,29 +1,42 @@
 package manager;
 
+import exceptions.ManagerSaveException;
+import exceptions.ManagerValidateException;
 import tasks.EpicTask;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 
 public class InMemoryTaskManager implements TaskManager {
 
     HistoryManager historyManager;
-    protected HashMap<Integer, Task> tasksMap;
+    protected Map<Integer, Task> tasksMap;
     private static int id = 1;
+    protected Set<Task> prioritizedTasks;
+    private final Comparator<Task> comparator;
 
     public InMemoryTaskManager() {
         this.tasksMap = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
-
+        comparator  = (o1, o2) -> {
+            if (o1.getStartTime() != null && o2.getStartTime() != null) {
+                return o1.getStartTime().compareTo(o2.getStartTime());
+            }
+            if(o1.getStartTime() == null) return 1;
+            return -1;
+        };
+        prioritizedTasks = new TreeSet<>(comparator);
     }
 
 
     @Override
     public void saveNewTask(Task task) {
+        if (!checkTime(task)) throw new ManagerValidateException("Задание пересекается с другими задачами");
+        prioritizedTasks.add(task);
         tasksMap.put(task.getId(), task);
     }
 
@@ -45,7 +58,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getAllTasks() {
-        return new ArrayList<>(tasksMap.values());
+        return tasksMap.values().stream().collect(Collectors.toList());
+        //toList();
     }
 
     @Override
@@ -100,5 +114,25 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void setHistoryManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
+    }
+
+    public boolean checkTime(Task task) {
+        if(task.getStartTime() == null) return true;
+        for (Task t : prioritizedTasks) {
+            if (t.getStartTime() != null && t.getEndTime() != null) {
+                if(task.getStartTime().isAfter(t.getStartTime()) && task.getStartTime().isBefore(t.getEndTime())) {
+                    return false;
+                } else if (task.getEndTime().isBefore(t.getEndTime()) && task.getEndTime().isAfter(t.getStartTime())) {
+                    return false;
+                }
+                }
+            }
+
+        return true;
+    }
+
+    public List<Task> getPrioritizedTasks() {
+        return prioritizedTasks.stream().collect(Collectors.toList());
+        //toList();
     }
 }

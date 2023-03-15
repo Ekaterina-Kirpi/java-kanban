@@ -7,10 +7,10 @@ import tasks.SubTask;
 import tasks.Task;
 
 import java.io.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     //implements TaskManager
@@ -34,12 +34,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(file));
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,type,name,status,description,startTime,duration,endTime,epic\n"); // startTime,duration,endTime
             for (Task task : this.getAllTasks()) {
                 writer.write(toString(task) + "\n");
             }
             writer.write("\n");
-            //writer.write(toString(this.historyManager));
             writer.write(historyToString(historyManager));
             writer.flush();
             writer.close();
@@ -48,12 +47,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
 
     }
-    /*id,type,name,status,description,epic
-      1,TASK,Task1,NEW,Description task1,
-      2,EPIC,Epic2,DONE,Description epic2,
-      3,SUBTASK,Sub Task2,DONE,Description sub task3,2
-
-      2,3 */
 
     public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
@@ -80,13 +73,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     static Task fromString(String value) {
         String[] values = value.split(",");
 
-        // 1,TASK,Task1,NEW,Description task1,
         switch (values[1]) {
             case "TASK":
-                return new Task(Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]));
+                return new Task(Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]),
+                        values[5].equals("null") ? null : Instant.parse(values[5]), Long.parseLong(values[6]));
             case "SUBTASK":
                 return new SubTask(Integer.parseInt(values[0]), values[2], values[4],
-                        Status.valueOf(values[3]), Integer.parseInt(values[5]));
+                        Status.valueOf(values[3]), Integer.parseInt(values[8]),
+                        values[5].equals("null") ? null : Instant.parse(values[5]), Long.parseLong(values[6]));
             case "EPIC":
                 return new EpicTask(Integer.parseInt(values[0]), values[2], values[4],
                         Status.valueOf(values[3]));
@@ -97,7 +91,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     static String historyToString(HistoryManager manager) {
         List<Task> tasks = manager.getHistory();
-        if(tasks.isEmpty()) return "";
+        if (tasks.isEmpty()) return "";
         String value = "";
         for (int i = 0; i < tasks.size() - 1; i++) {
             value += tasks.get(i).getId() + ",";
@@ -123,9 +117,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } else {
             thisType = Type.TASK;
         }
-        String taskString = String.format("%d,%s,%s,%s,%s,", task.getId(), thisType.toString(), task.getName(),
-                task.getStatus().toString(), task.getDescription());
-        return task instanceof SubTask? taskString + ((SubTask) task).getParentId(): taskString;
+        String taskString = String.format("%d,%s,%s,%s,%s,%s,%s,%s,", task.getId(), thisType.toString(), task.getName(),
+                task.getStatus().toString(), task.getDescription(), task.getStartTime() == null ? "null" : task.getStartTime().toString(),
+                task.getDuration(), task.getEndTime() == null ? "null" : task.getEndTime().toString());
+        return task instanceof SubTask ? taskString + ((SubTask) task).getParentId() : taskString;
     }
 
     @Override
