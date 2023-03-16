@@ -33,12 +33,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void save() {
         BufferedWriter writer;
         try {
+            if (!file.getName().contains(".csv")) throw new ManagerSaveException("Файл не того формата");
             writer = new BufferedWriter(new FileWriter(file));
-            writer.write("id,type,name,status,description,startTime,duration,endTime,epic\n"); // startTime,duration,endTime
+            writer.write("id,type,name,status,description,startTime,duration,endTime,epic\n"); //обавлены startTime,duration
             for (Task task : this.getAllTasks()) {
                 writer.write(toString(task) + "\n");
             }
             writer.write("\n");
+            //writer.write(toString(this.historyManager));
             writer.write(historyToString(historyManager));
             writer.flush();
             writer.close();
@@ -73,6 +75,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     static Task fromString(String value) {
         String[] values = value.split(",");
 
+        // 1,TASK,Task1,NEW,Description task1,
         switch (values[1]) {
             case "TASK":
                 return new Task(Integer.parseInt(values[0]), values[2], values[4], Status.valueOf(values[3]),
@@ -100,6 +103,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     static List<Integer> historyFromString(String value) {
+        if (value.isEmpty()) return new ArrayList<>();
         String[] ids = value.split(",");
         List<Integer> tasks = new ArrayList<>();
         for (String id : ids) {
@@ -189,5 +193,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
 
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 }
 

@@ -1,6 +1,5 @@
 package manager;
 
-import exceptions.ManagerSaveException;
 import exceptions.ManagerValidateException;
 import tasks.EpicTask;
 import tasks.SubTask;
@@ -59,7 +58,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getAllTasks() {
         return tasksMap.values().stream().collect(Collectors.toList());
-        //toList();
     }
 
     @Override
@@ -116,18 +114,18 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = historyManager;
     }
 
+
     public boolean checkTime(Task task) {
         if(task.getStartTime() == null) return true;
         for (Task t : prioritizedTasks) {
             if (t.getStartTime() != null && t.getEndTime() != null) {
-                if(task.getStartTime().isAfter(t.getStartTime()) && task.getStartTime().isBefore(t.getEndTime())) {
+                if (task.getStartTime().isAfter(t.getStartTime()) && task.getStartTime().isBefore(t.getEndTime())) {
                     return false;
                 } else if (task.getEndTime().isBefore(t.getEndTime()) && task.getEndTime().isAfter(t.getStartTime())) {
                     return false;
                 }
-                }
             }
-
+        }
         return true;
     }
 

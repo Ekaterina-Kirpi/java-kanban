@@ -1,7 +1,10 @@
-package tasks;
+package tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tasks.EpicTask;
+import tasks.Status;
+import tasks.SubTask;
 
 import java.time.Instant;
 
