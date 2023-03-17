@@ -23,12 +23,6 @@ public class EpicTask extends Task {
 
     }
 
-    /*public EpicTask(String name, String description, Status status, Instant startTime) {
-        super(name, description, status, startTime, getDuration());
-        this.subTasks = new ArrayList<>();
-        this.endTime = super.getEndTime();
-    }*/
-
 
     public void saveNewSubTask(SubTask subTask) {
         calculateTime();
@@ -123,13 +117,7 @@ public class EpicTask extends Task {
     public String toString() {
         return "EpicTask{" +
                 "subTasks=" + subTasks +
-                ", id=" + getId() +
-                ", status=" + status +
-                ", startTime='" + getStartTime() + '\'' +
-                ", endTime='" + getEndTime() + '\'' +
-                ", duration='" + getDuration() +
-                '}';
+                super.toString();
 
     }
-
 }

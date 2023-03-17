@@ -1,10 +1,7 @@
 package manager;
 
 import exceptions.ManagerSaveException;
-import tasks.EpicTask;
-import tasks.Status;
-import tasks.SubTask;
-import tasks.Task;
+import tasks.*;
 
 import java.io.*;
 import java.time.Instant;
@@ -93,7 +90,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     static String historyToString(HistoryManager manager) {
-        List<Task> tasks = manager.getHistory();
+        List<Task> tasks = manager.getHistoryList();
         if (tasks.isEmpty()) return "";
         String value = "";
         for (int i = 0; i < tasks.size() - 1; i++) {
@@ -181,8 +178,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public HistoryManager getHistory() throws ManagerSaveException {
-        HistoryManager historyManager1 = super.getHistory();
+    public HistoryManager getHistoryManager() throws ManagerSaveException {
+        HistoryManager historyManager1 = super.getHistoryManager();
         save();
         return historyManager1;
     }

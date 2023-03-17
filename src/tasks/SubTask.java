@@ -1,7 +1,6 @@
 package tasks;
 
 import java.time.Instant;
-import java.util.Objects;
 
 public class SubTask extends Task {
     private EpicTask epicTask;
@@ -73,10 +72,8 @@ public class SubTask extends Task {
     public String toString() {
         return "SubTask{" +
                 super.toString() +
-                ", status=" + status +
                 "epicTask=" + epicTask +
                 ", parentId=" + parentId +
-                ", status=" + status +
                 '}';
     }
 }

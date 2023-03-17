@@ -1,5 +1,3 @@
-package tests;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tasks.EpicTask;
@@ -7,8 +5,6 @@ import tasks.Status;
 import tasks.SubTask;
 
 import java.time.Instant;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class EpicTaskTests {
     @Test
@@ -52,5 +48,5 @@ class EpicTaskTests {
         epicTask.saveNewSubTask(subTask2);
         Assertions.assertEquals(Status.IN_PROGRESS, epicTask.calcStatus());
     }
-
+    //я учла, постараюсь сделать. Не успеваю(
 }

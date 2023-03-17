@@ -1,5 +1,3 @@
-package tests;
-
 import exceptions.ManagerValidateException;
 import manager.TaskManager;
 import org.junit.jupiter.api.Assertions;
@@ -13,12 +11,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-// он не наследуется от TaskManager, а указывается дженерик, который наследуется от TaskManager
-// т.е. тебе не нужно обязательно указывать все методы из TaskManager, плюс ты можешь назвать их по другому
-
-abstract class TaskManagerTest<T extends TaskManager> {
+public abstract class TaskManagerTest<T extends TaskManager> {
     protected T taskManager;
-
 
     @Test
     public void saveNewTaskTest() {
@@ -111,11 +105,11 @@ abstract class TaskManagerTest<T extends TaskManager> {
         Task task = new Task(0, "Побегать", "Часовая пробежка", Status.DONE, Instant.now(), 30);
         taskManager.saveNewTask(task);
         taskManager.getTaskById(0);
-        Assertions.assertEquals(1, taskManager.getHistory().getHistory().size());
+        Assertions.assertEquals(1, taskManager.getHistoryManager().getHistoryList().size());
     }
 
     @Test
     public void getHistoryEmptyTest() {
-        Assertions.assertTrue(taskManager.getHistory().getHistory().isEmpty());
+        Assertions.assertTrue(taskManager.getHistoryManager().getHistoryList().isEmpty());
     }
 }

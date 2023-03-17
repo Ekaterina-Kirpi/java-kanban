@@ -1,5 +1,3 @@
-package tests;
-
 import exceptions.ManagerSaveException;
 import manager.FileBackedTaskManager;
 import manager.Managers;

@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-
 public class InMemoryTaskManager implements TaskManager {
 
     HistoryManager historyManager;
@@ -21,11 +20,11 @@ public class InMemoryTaskManager implements TaskManager {
     public InMemoryTaskManager() {
         this.tasksMap = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
-        comparator  = (o1, o2) -> {
+        comparator = (o1, o2) -> {
             if (o1.getStartTime() != null && o2.getStartTime() != null) {
                 return o1.getStartTime().compareTo(o2.getStartTime());
             }
-            if(o1.getStartTime() == null) return 1;
+            if (o1.getStartTime() == null) return 1;
             return -1;
         };
         prioritizedTasks = new TreeSet<>(comparator);
@@ -58,6 +57,17 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getAllTasks() {
         return tasksMap.values().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> getAllOnlyTasks() {
+        List<Task> allOnlyTasks = new ArrayList<>();
+        for (Task t : tasksMap.values()) {
+            if (t.getClass() == Task.class) {
+                allOnlyTasks.add((Task) t);
+            }
+        }
+        return allOnlyTasks;
     }
 
     @Override
@@ -106,7 +116,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
-    public HistoryManager getHistory() {
+    public HistoryManager getHistoryManager() {
         return historyManager;
     }
 
@@ -116,12 +126,11 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     public boolean checkTime(Task task) {
-        if(task.getStartTime() == null) return true;
+        if (task.getStartTime() == null) return true;
         for (Task t : prioritizedTasks) {
             if (t.getStartTime() != null && t.getEndTime() != null) {
-                if (task.getStartTime().isAfter(t.getStartTime()) && task.getStartTime().isBefore(t.getEndTime())) {
-                    return false;
-                } else if (task.getEndTime().isBefore(t.getEndTime()) && task.getEndTime().isAfter(t.getStartTime())) {
+                if ((task.getStartTime().isAfter(t.getStartTime()) && task.getStartTime().isBefore(t.getEndTime())) ||
+                        ((task.getEndTime().isBefore(t.getEndTime()) && task.getEndTime().isAfter(t.getStartTime())))) {
                     return false;
                 }
             }
@@ -130,7 +139,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getPrioritizedTasks() {
-        return prioritizedTasks.stream().collect(Collectors.toList());
+        return new ArrayList<>(prioritizedTasks);
         //toList();
     }
 }

@@ -17,6 +17,8 @@ public interface TaskManager {
 
     void removeAllTask();
 
-    HistoryManager getHistory();
+    List<Task> getAllOnlyTasks();
+
+    HistoryManager getHistoryManager();
 
 }
