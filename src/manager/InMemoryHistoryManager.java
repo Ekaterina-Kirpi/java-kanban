@@ -63,6 +63,7 @@ final class CustomLinkedList {
         if (node != null) {
             final Node next = node.next;
             final Node prev = node.prev;
+            mapNode.remove(node.element.getId());
             node.element = null;
             if (head == node && tail == node) {
                 head = null;
@@ -101,7 +102,6 @@ final class CustomLinkedList {
 
 
 }
-
 
 
 

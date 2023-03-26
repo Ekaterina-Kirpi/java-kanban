@@ -1,4 +1,6 @@
 package manager;
+import server.KVServer;
+import java.io.IOException;
 
 public class Managers {
     public static TaskManager getDefault() {
@@ -13,4 +15,8 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
+    public static KVServer getDefaultKVServer() throws IOException {
+        return new KVServer();
+    }
 }
+

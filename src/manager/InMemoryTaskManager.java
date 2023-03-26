@@ -8,7 +8,6 @@ import tasks.Task;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class InMemoryTaskManager implements TaskManager {
 
     HistoryManager historyManager;
@@ -30,12 +29,25 @@ public class InMemoryTaskManager implements TaskManager {
         prioritizedTasks = new TreeSet<>(comparator);
     }
 
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.tasksMap = new HashMap<>();
+        this.historyManager = historyManager;
+        comparator = (o1, o2) -> {
+            if (o1.getStartTime() != null && o2.getStartTime() != null) {
+                return o1.getStartTime().compareTo(o2.getStartTime());
+            }
+            if (o1.getStartTime() == null) return 1;
+            return -1;
+        };
+        prioritizedTasks = new TreeSet<>(comparator);
+    }
 
     @Override
-    public void saveNewTask(Task task) {
+    public Task saveNewTask(Task task) {
         if (!checkTime(task)) throw new ManagerValidateException("Задание пересекается с другими задачами");
         prioritizedTasks.add(task);
         tasksMap.put(task.getId(), task);
+        return task;
     }
 
     @Override

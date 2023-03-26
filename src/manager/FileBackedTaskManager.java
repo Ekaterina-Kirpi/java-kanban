@@ -1,8 +1,6 @@
 package manager;
-
 import exceptions.ManagerSaveException;
 import tasks.*;
-
 import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,13 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    //implements TaskManager
     private File file;
 
     public FileBackedTaskManager() {
         this.file = new File("list.csv");
         this.tasksMap = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
+    }
+
+    public FileBackedTaskManager(HistoryManager historyManager) {
+        super(historyManager);
     }
 
     public FileBackedTaskManager(File file) {
@@ -125,9 +126,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void saveNewTask(Task task) throws ManagerSaveException {
+    public Task saveNewTask(Task task) throws ManagerSaveException {
         super.saveNewTask(task);
         save();
+        return task;
     }
 
     @Override
@@ -180,7 +182,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public HistoryManager getHistoryManager() throws ManagerSaveException {
         HistoryManager historyManager1 = super.getHistoryManager();
-        save();
         return historyManager1;
     }
 
@@ -198,4 +199,3 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 }
-

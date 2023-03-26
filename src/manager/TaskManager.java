@@ -5,7 +5,7 @@ import tasks.Task;
 import java.util.List;
 
 public interface TaskManager {
-    void saveNewTask(Task task);
+    Task saveNewTask(Task task);
 
     Task getTaskById(int id);
 
@@ -19,6 +19,8 @@ public interface TaskManager {
 
     List<Task> getAllOnlyTasks();
 
+
     HistoryManager getHistoryManager();
+    List<Task> getPrioritizedTasks();
 
 }
