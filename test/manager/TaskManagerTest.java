@@ -1,3 +1,5 @@
+package manager;
+
 import exceptions.ManagerValidateException;
 import manager.TaskManager;
 import org.junit.jupiter.api.Assertions;

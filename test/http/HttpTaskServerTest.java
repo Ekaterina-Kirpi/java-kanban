@@ -1,3 +1,5 @@
+package http;
+
 import com.google.gson.*;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterEach;
